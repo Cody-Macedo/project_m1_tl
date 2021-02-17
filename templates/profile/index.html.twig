@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+    <div class="container d-flex justify-content-center">
+        {# {{ dump(user) }} #}
+        <div class="form">
+            <h1>Profile</h1>
+            {{ form_start(profile) }}
+            {{ form_row(profile.email) }}
+            {{ form_row(profile.firstname) }}
+            {{ form_row(profile.lastname) }}
+            {{ form_row(profile.address) }}
+            {{ form_row(profile.phone) }}
+            <div class="d-flex justify-content-center">
+
+                <button type="submit" class="btn btn-outline-primary">Send</button>
+                {{ form_end(profile) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
