@@ -33,6 +33,16 @@ class Room
      */
     private $category;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="rooms")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Ville;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +80,30 @@ class Room
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->Ville;
+    }
+
+    public function setVille(string $Ville): self
+    {
+        $this->Ville = $Ville;
 
         return $this;
     }

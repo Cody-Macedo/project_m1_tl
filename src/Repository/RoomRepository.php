@@ -19,6 +19,18 @@ class RoomRepository extends ServiceEntityRepository
         parent::__construct($registry, Room::class);
     }
 
+    public function findByVille($value)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.Ville LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('r.id', 'ASC')
+            ;
+        $query = $qb->getQuery();
+        return $query->execute();
+
+    }
+
     // /**
     //  * @return Room[] Returns an array of Room objects
     //  */

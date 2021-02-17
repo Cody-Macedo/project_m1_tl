@@ -26,6 +26,17 @@ class RoomController extends AbstractController
     }
 
     /**
+     * @Route("/search/{ville}", name="room_city_search", methods={"GET"})
+     */
+    public function searchByCity(String $ville , RoomRepository $roomRepository): Response
+    {
+
+        return $this->render('room/search.html.twig', [
+            'rooms' => $roomRepository->findByVille($ville),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="room_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -35,10 +46,12 @@ class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //création de la room en effectant l'utilisateur actuel
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $room->setUser($user);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($room);
             $entityManager->flush();
-
             return $this->redirectToRoute('room_index');
         }
 

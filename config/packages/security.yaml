@@ -35,6 +35,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
+        # restriction role admin pour la création de category et room
          - { path: ^/room/new, roles: ROLE_ADMIN }
          - { path: ^/category/new, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

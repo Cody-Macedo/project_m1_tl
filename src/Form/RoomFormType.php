@@ -16,7 +16,8 @@ class RoomFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('capacity', IntegerType::class);
+            ->add('capacity', IntegerType::class)
+            ->add('category', Category::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

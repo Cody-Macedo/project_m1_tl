@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room Search{% endblock %}
+
+{% block body %}
+    <h1>Room Search</h1>
+{#    {{ dump(rooms) }}#}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Capacity</th>
+            <th>Ville</th>
+            <th>User</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for room in rooms %}
+            <tr>
+                <td>{{ room.name }}</td>
+                <td>{{ room.capacity }}</td>
+                <td>{{ room.Ville }}</td>
+                <td>{{ room.user.email }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <a href="{{ path('room_index') }}">back to list</a>
+
+{% endblock %}

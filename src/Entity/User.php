@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -55,6 +57,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Room::class, mappedBy="user")
+     */
+    private $rooms;
+
+    public function __construct()
+    {
+        $this->rooms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -181,6 +193,36 @@ class User implements UserInterface
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Room[]
+     */
+    public function getRooms(): Collection
+    {
+        return $this->rooms;
+    }
+
+    public function addRoom(Room $room): self
+    {
+        if (!$this->rooms->contains($room)) {
+            $this->rooms[] = $room;
+            $room->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoom(Room $room): self
+    {
+        if ($this->rooms->removeElement($room)) {
+            // set the owning side to null (unless already changed)
+            if ($room->getUser() === $this) {
+                $room->setUser(null);
+            }
+        }
 
         return $this;
     }
