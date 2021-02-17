@@ -5,7 +5,15 @@
 {% block body %}
     <h1>Create new Room</h1>
 
-    {{ include('room/_form.html.twig') }}
+    {{ form_start(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.capacity) }}
+    {{ form_row(form.ville) }}
+    {{ form_row(form.category) }}
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('room_index') }}">back to list</a>
 {% endblock %}

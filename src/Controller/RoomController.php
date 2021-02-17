@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Room;
 use App\Form\RoomFormType;
+use App\Repository\CategoryRepository;
 use App\Repository\RoomRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,10 +41,11 @@ class RoomController extends AbstractController
     /**
      * @Route("/new", name="room_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, CategoryRepository $categoryRepository): Response
     {
         $room = new Room();
         $form = $this->createForm(RoomFormType::class, $room);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,6 +60,7 @@ class RoomController extends AbstractController
 
         return $this->render('room/new.html.twig', [
             'room' => $room,
+            'categories' => $categoryRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
@@ -73,6 +77,7 @@ class RoomController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="room_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Room $room): Response
     {
@@ -93,6 +98,7 @@ class RoomController extends AbstractController
 
     /**
      * @Route("/{id}", name="room_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Room $room): Response
     {
