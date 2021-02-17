@@ -20,7 +20,11 @@
                 <td>{{ room.name }}</td>
                 <td>{{ room.capacity }}</td>
                 <td>{{ room.Ville }}</td>
-                <td>{{ room.user.email }}</td>
+                {% if room.user is not null %}
+                    <td>{{ room.user.email }}</td>
+                {% else %}
+                    <td> no user define</td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
