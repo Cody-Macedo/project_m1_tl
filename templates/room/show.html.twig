@@ -4,7 +4,11 @@
 
 {% block body %}
     <h1>Room</h1>
-
+    <div>
+        <figure>
+            <img src="/images/rooms/{{ room.filename }}" alt="{{ room.filename }}">
+        </figure>
+    </div>
     <table class="table">
         <tbody>
             <tr>
@@ -20,9 +24,14 @@
                 <td>{{ room.capacity }}</td>
             </tr>
             <tr>
+                <th>path</th>
+                <td>{{ room.filename }}</td>
+            </tr>
+            <tr>
                 <th>User</th>
                 <td>{{ room.user.id }}</td>
             </tr>
+
         </tbody>
     </table>
 

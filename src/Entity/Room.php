@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=RoomRepository::class)
+ * @Vich\Uploadable()
  */
 class Room
 {
@@ -42,6 +46,40 @@ class Room
      * @ORM\Column(type="string", length=255)
      */
     private $Ville;
+
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $filename;
+
+    /**
+     * @var File|null
+     * @Assert\Image(
+     *     mimeTypes={"image/png"}
+     * )
+     * @Vich\UploadableField(mapping="room_image", fileNameProperty="filename")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -108,5 +146,65 @@ class Room
         return $this;
     }
 
+
+    /**
+     * @return string|null
+     */
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string|null $filename
+     * @return Room
+     */
+    public function setFilename(?string $filename): Room
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     * @return Room
+     */
+    public function setImageFile(?File $imageFile): Room
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
 
 }
